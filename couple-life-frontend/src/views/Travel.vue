@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="travel-wrap">
     <section class="map-card love-card">
       <div class="page-head">
@@ -22,13 +22,19 @@
             <img :src="url" class="travel-img" />
           </el-carousel-item>
         </el-carousel>
-        <h2>{{ current.locationName }}</h2>
-        <p class="travel-meta">{{ current.travelDate }} · {{ current.country }} {{ current.city }}</p>
-        <p>{{ current.detail || current.summary }}</p>
-        <el-divider />
-        <h4>💬 我的感受</h4><p>{{ current.myFeeling }}</p>
-        <h4>💕 伴侣感受</h4><p>{{ current.partnerFeeling }}</p>
-        <el-button type="danger" plain @click="removeCurrent">删除记录</el-button>
+        <div class="drawer-content">
+          <h2>{{ current.locationName }}</h2>
+          <p class="travel-meta">{{ current.travelDate }} · {{ current.country }} {{ current.city }}</p>
+          <p class="travel-desc">{{ current.detail || current.summary }}</p>
+          <el-divider />
+          <div class="feeling-section">
+            <h4>💬 我的感受</h4><p>{{ current.myFeeling }}</p>
+          </div>
+          <div class="feeling-section">
+            <h4>💕 伴侣感受</h4><p>{{ current.partnerFeeling }}</p>
+          </div>
+          <el-button type="danger" plain @click="removeCurrent">删除记录</el-button>
+        </div>
       </template>
     </el-drawer>
     <el-dialog v-model="formVisible" title="✈️ 新增旅行记录" width="640px">
@@ -261,6 +267,76 @@ function handleMapClick(e) {
   background: linear-gradient(135deg, #fff7e8, #e7dcff);
 }
 
+.travel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--love-radius-sm);
+}
+
+.drawer-content {
+  padding-top: 8px;
+}
+
+.drawer-content h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  color: var(--love-text);
+}
+
+.travel-meta {
+  color: var(--love-text-light);
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.travel-desc {
+  color: #8e6d7c;
+  line-height: 1.7;
+  margin: 0 0 16px;
+}
+
+.feeling-section {
+  margin-bottom: 16px;
+}
+
+.feeling-section h4 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: var(--love-text);
+}
+
+.feeling-section p {
+  color: #8e6d7c;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.image-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.image-preview .el-image {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--love-radius-xs);
+  transition: transform 0.2s;
+}
+
+.image-preview .el-image:hover {
+  transform: scale(1.05);
+}
+
+.full {
+  width: 100%;
+}
+</style>
+
+<!-- 非 scoped 样式：心形标记必须在 AMap DOM 中生效 -->
+<style>
 .heart-marker {
   width: 32px;
   height: 32px;
@@ -269,6 +345,7 @@ function handleMapClick(e) {
   transform: rotate(-45deg);
   box-shadow: 0 2px 8px rgba(255, 111, 159, 0.4);
   transition: transform 0.2s;
+  cursor: pointer;
 }
 
 .heart-marker:hover {
@@ -293,44 +370,5 @@ function handleMapClick(e) {
 .heart-marker::after {
   top: 0;
   left: 16px;
-}
-
-.travel-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: var(--love-radius-sm);
-}
-
-.travel-meta {
-  color: var(--love-text-light);
-  font-size: 14px;
-}
-
-.image-preview {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.image-preview .el-image {
-  width: 80px;
-  height: 80px;
-  border-radius: var(--love-radius-xs);
-  transition: transform 0.2s;
-}
-
-.image-preview .el-image:hover {
-  transform: scale(1.05);
-}
-
-.full {
-  width: 100%;
-}
-
-p {
-  color: #8e6d7c;
-  line-height: 1.7;
 }
 </style>
