@@ -181,10 +181,25 @@ async function save() {
 }
 
 async function removeCurrent() {
-  await deleteTravel(current.value.id)
-  ElMessage.success('删除成功')
-  drawer.value = false
-  await load()
+  try {
+    await ElMessageBox.confirm('确定要删除这条旅行记录吗？删除后不可恢复。', '删除确认', {
+      confirmButtonText: '确定删除',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+  } catch {
+    return
+  }
+  try {
+    await deleteTravel(current.value.id)
+    removeMarker(current.value.id)
+    travels.value = travels.value.filter(t => t.id !== current.value.id)
+    ElMessage.success('删除成功')
+    drawer.value = false
+    current.value = null
+  } catch {
+    ElMessage.error('删除失败，请重试')
+  }
 }
 
 function handleMapClick(e) {
