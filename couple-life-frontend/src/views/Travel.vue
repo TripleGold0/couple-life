@@ -121,7 +121,7 @@ function initMap() {
 
 function loadMarkers() {
   // 清除现有标记
-  if (map) map.clearMap()
+  markers.forEach(marker => map.remove(marker))
   markers = []
   
   // 添加新标记
