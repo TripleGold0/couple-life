@@ -137,8 +137,10 @@ function addMarker(travel) {
     position: [travel.longitude, travel.latitude],
     title: travel.locationName,
     content: '<div class="heart-marker"></div>',
-    offset: new AMap.Pixel(-16, -16)
+    offset: new AMap.Pixel(-10, -10)
   })
+  
+  marker.travelId = travel.id
   
   marker.on('click', async () => {
     if (!ensureBound()) return
@@ -151,7 +153,7 @@ function addMarker(travel) {
 }
 
 function removeMarker(travelId) {
-  const index = markers.findIndex(m => m.getTitle() === travels.value.find(t => t.id === travelId)?.locationName)
+  const index = markers.findIndex(m => m.travelId === travelId)
   if (index > -1) {
     map.remove(markers[index])
     markers.splice(index, 1)
@@ -349,12 +351,12 @@ function handleMapClick(e) {
 <!-- 非 scoped 样式：心形标记必须在 AMap DOM 中生效 -->
 <style>
 .heart-marker {
-  width: 32px;
-  height: 32px;
+  width: 20px;
+  height: 20px;
   background: #ff6f9f;
   position: relative;
   transform: rotate(-45deg);
-  box-shadow: 0 2px 8px rgba(255, 111, 159, 0.4);
+  box-shadow: 0 2px 6px rgba(255, 111, 159, 0.4);
   transition: transform 0.2s;
   cursor: pointer;
 }
@@ -366,20 +368,20 @@ function handleMapClick(e) {
 .heart-marker::before,
 .heart-marker::after {
   content: '';
-  width: 32px;
-  height: 32px;
+  width: 20px;
+  height: 20px;
   background: #ff6f9f;
   border-radius: 50%;
   position: absolute;
 }
 
 .heart-marker::before {
-  top: -16px;
+  top: -10px;
   left: 0;
 }
 
 .heart-marker::after {
   top: 0;
-  left: 16px;
+  left: 10px;
 }
 </style>
