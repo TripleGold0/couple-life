@@ -103,10 +103,13 @@ function initMap() {
     viewMode: '2D'
   })
   
-  // 添加控件
-  map.addControl(new AMap.ToolBar({ position: 'LT' }))
-  map.addControl(new AMap.Scale({ position: 'LB' }))
-  map.addControl(new AMap.MapType({ position: 'RT' }))
+  // 加载插件
+  AMap.plugin(['AMap.ToolBar', 'AMap.Scale', 'AMap.MapType'], function() {
+    // 添加控件
+    map.addControl(new AMap.ToolBar({ position: 'LT' }))
+    map.addControl(new AMap.Scale({ position: 'LB' }))
+    map.addControl(new AMap.MapType({ position: 'RT' }))
+  })
   
   // 加载标记
   loadMarkers()
