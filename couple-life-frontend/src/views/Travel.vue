@@ -208,8 +208,13 @@ async function removeCurrent() {
 }
 
 function handleMapClick(e) {
-  if (!ensureBound()) return
+  console.log('地图点击事件触发', e)
+  if (!isCoupleBound.value) {
+    ElMessage.warning('请先绑定情侣关系后再打卡')
+    return
+  }
   const { lng, lat } = e.lnglat
+  console.log('点击位置:', lng, lat)
   Object.assign(form, { 
     locationName: '', 
     country: '', 
@@ -224,6 +229,7 @@ function handleMapClick(e) {
     imageUrls: [] 
   })
   formVisible.value = true
+  console.log('formVisible 设置为:', formVisible.value)
 }
 </script>
 
