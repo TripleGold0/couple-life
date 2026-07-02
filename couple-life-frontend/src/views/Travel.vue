@@ -103,22 +103,17 @@ function initMap() {
     viewMode: '2D'
   })
   
-  // 等待地图完全加载后再绑定事件
-  map.on('complete', function() {
-    console.log('地图加载完成，绑定点击事件')
-    
-    // 添加控件
-    map.addControl(new AMap.ToolBar({ position: 'LT' }))
-    map.addControl(new AMap.Scale({ position: 'LB' }))
-    map.addControl(new AMap.MapType({ position: 'RT' }))
-    
-    // 加载标记
-    loadMarkers()
-    
-    // 监听地图点击事件
-    map.on('click', handleMapClick)
-    console.log('点击事件已绑定')
-  })
+  // 添加控件
+  map.addControl(new AMap.ToolBar({ position: 'LT' }))
+  map.addControl(new AMap.Scale({ position: 'LB' }))
+  map.addControl(new AMap.MapType({ position: 'RT' }))
+  
+  // 加载标记
+  loadMarkers()
+  
+  // 监听地图点击事件
+  map.on('click', handleMapClick)
+  console.log('地图初始化完成，点击事件已绑定')
 }
 
 function loadMarkers() {
