@@ -94,6 +94,8 @@ function initMap() {
   if (!mapRef.value) return
   if (map) { map.destroy(); map = null }
   
+  console.log('开始初始化地图...')
+  
   map = new AMap.Map(mapRef.value, {
     zoom: 2,
     center: [0, 20],
@@ -101,16 +103,22 @@ function initMap() {
     viewMode: '2D'
   })
   
-  // 添加控件
-  map.addControl(new AMap.ToolBar({ position: 'LT' }))
-  map.addControl(new AMap.Scale({ position: 'LB' }))
-  map.addControl(new AMap.MapType({ position: 'RT' }))
-  
-  // 加载标记
-  loadMarkers()
-  
-  // 监听地图点击事件
-  map.on('click', handleMapClick)
+  // 等待地图完全加载后再绑定事件
+  map.on('complete', function() {
+    console.log('地图加载完成，绑定点击事件')
+    
+    // 添加控件
+    map.addControl(new AMap.ToolBar({ position: 'LT' }))
+    map.addControl(new AMap.Scale({ position: 'LB' }))
+    map.addControl(new AMap.MapType({ position: 'RT' }))
+    
+    // 加载标记
+    loadMarkers()
+    
+    // 监听地图点击事件
+    map.on('click', handleMapClick)
+    console.log('点击事件已绑定')
+  })
 }
 
 function loadMarkers() {
