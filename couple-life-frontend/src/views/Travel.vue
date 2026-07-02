@@ -13,7 +13,7 @@
       <el-alert v-if="!isCoupleBound" type="info" :closable="false" class="bind-tip" show-icon>
         当前为未绑定状态，地图仅展示空白框架，<el-link type="primary" :underline="false" @click="goBind">点击去绑定情侣关系</el-link>后即可记录你们的足迹。
       </el-alert>
-      <div ref="mapRef" class="map" @click="onMapWrapperClick"></div>
+      <div ref="mapRef" class="map"></div>
     </section>
     <el-drawer v-model="drawer" title="旅行详情" size="440px">
       <template v-if="current">
@@ -162,7 +162,6 @@ function ensureBound() {
   return false
 }
 
-function onMapWrapperClick() { if (!isCoupleBound.value) ensureBound() }
 function goBind() { router.push('/app/profile') }
 
 function openAdd() {
