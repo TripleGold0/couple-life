@@ -1,0 +1,169 @@
+:root {
+  --love-pink: #ffd6e7;
+  --love-cream: #fff7e8;
+  --love-orange: #ffc9a9;
+  --love-purple: #e7dcff;
+  --love-text: #5f4150;
+  --love-text-light: #9b7587;
+  --love-text-muted: #b89daa;
+  --love-primary: #ff7ca8;
+  --love-primary-hover: #ff93b8;
+  --love-bg: linear-gradient(135deg, #fff7e8 0%, #ffd6e7 48%, #e7dcff 100%);
+  --love-card-bg: rgba(255, 255, 255, 0.72);
+  --love-card-border: rgba(255, 255, 255, 0.8);
+  --love-card-shadow: 0 20px 60px rgba(255, 124, 168, 0.18);
+  --love-radius: 24px;
+  --love-radius-sm: 16px;
+  --love-radius-xs: 12px;
+  --love-transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--love-text);
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--love-bg);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.love-page {
+  min-height: 100vh;
+  padding: 28px;
+}
+
+.love-card {
+  border: 1px solid var(--love-card-border);
+  border-radius: var(--love-radius);
+  background: var(--love-card-bg);
+  box-shadow: var(--love-card-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform var(--love-transition), box-shadow var(--love-transition);
+}
+
+.love-card:hover {
+  box-shadow: 0 24px 64px rgba(255, 124, 168, 0.22);
+}
+
+.gradient-title {
+  background: linear-gradient(90deg, #ff6f9f, #b58cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ===== 按钮全局美化 ===== */
+.el-button--primary {
+  --el-button-bg-color: var(--love-primary);
+  --el-button-border-color: var(--love-primary);
+  --el-button-hover-bg-color: var(--love-primary-hover);
+  --el-button-hover-border-color: var(--love-primary-hover);
+  --el-button-active-bg-color: #e66a90;
+  --el-button-active-border-color: #e66a90;
+  border-radius: 12px !important;
+  font-weight: 600;
+}
+
+.el-button {
+  border-radius: 12px !important;
+  transition: all var(--love-transition);
+}
+
+/* ===== 输入框美化 ===== */
+.el-input__wrapper {
+  border-radius: 12px !important;
+  transition: box-shadow var(--love-transition);
+}
+
+.el-textarea__inner {
+  border-radius: 12px !important;
+}
+
+/* ===== 对话框 / 抽屉美化 ===== */
+.el-dialog {
+  border-radius: var(--love-radius) !important;
+  overflow: hidden;
+}
+
+.el-dialog__header {
+  padding: 20px 24px 16px !important;
+}
+
+.el-dialog__body {
+  padding: 16px 24px 24px !important;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.el-drawer__header {
+  padding: 20px 24px 16px !important;
+  margin-bottom: 0 !important;
+}
+
+.el-drawer__body {
+  padding: 16px 24px !important;
+}
+
+/* ===== 表单项美化 ===== */
+.el-form-item__label {
+  font-weight: 600 !important;
+  color: var(--love-text) !important;
+}
+
+/* ===== 日历美化 ===== */
+.el-calendar {
+  background: transparent !important;
+  border: none !important;
+}
+
+.el-calendar-table td {
+  border: none !important;
+}
+
+.el-calendar-day {
+  padding: 0 !important;
+}
+
+/* ===== 进度条美化 ===== */
+.el-progress-bar__outer {
+  border-radius: 999px !important;
+}
+
+.el-progress-bar__inner {
+  border-radius: 999px !important;
+}
+
+/* ===== 分割线美化 ===== */
+.el-divider {
+  border-color: rgba(255, 214, 231, 0.5) !important;
+}
+
+/* ===== 滚动条美化 ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 124, 168, 0.2);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 124, 168, 0.35);
+}

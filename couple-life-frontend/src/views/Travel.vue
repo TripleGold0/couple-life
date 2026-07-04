@@ -3,11 +3,15 @@
     <section class="map-card love-card">
       <div class="page-head">
         <div>
-          <h2 class="gradient-title">旅行地图日志</h2>
+          <div class="title-line">
+            <h2 class="gradient-title">旅行地图日志</h2>
+            <span class="trip-count">{{ travels.length }} 个足迹</span>
+          </div>
           <p>在地图上标记你们一起去过的地方。</p>
         </div>
-        <el-button type="primary" size="large" @click="openAdd">
-          <span style="margin-right: 6px">✈️</span> 新增旅行
+        <el-button type="primary" size="large" class="add-travel-btn" @click="openAdd">
+          <el-icon><Plus /></el-icon>
+          新增旅行
         </el-button>
       </div>
       <el-alert v-if="!isCoupleBound" type="info" :closable="false" class="bind-tip" show-icon>
@@ -28,7 +32,20 @@
           <p class="travel-desc">{{ current.detail || current.summary }}</p>
           <el-divider />
           <div class="feeling-section">
-            <h4>💬 我的感受</h4><p>{{ current.myFeeling }}</p>
+            <div class="feeling-header">
+              <h4>💬 我的感受</h4>
+              <el-button v-if="!editingFeeling" type="primary" link @click="startEditFeeling">编辑</el-button>
+            </div>
+            <template v-if="!editingFeeling">
+              <p>{{ current.myFeeling }}</p>
+            </template>
+            <template v-else>
+              <el-input v-model="editedFeeling" type="textarea" :rows="3" placeholder="写下你的感受..." />
+              <div class="feeling-actions">
+                <el-button type="primary" size="small" @click="saveFeeling">保存</el-button>
+                <el-button size="small" @click="cancelEditFeeling">取消</el-button>
+              </div>
+            </template>
           </div>
           <div class="feeling-section">
             <h4>💕 伴侣感受</h4><p>{{ current.partnerFeeling }}</p>
@@ -47,7 +64,10 @@
         <el-form-item label="伴侣感受"><el-input v-model="form.partnerFeeling" type="textarea" :rows="2" /></el-form-item>
         <el-form-item label="旅行图片">
           <el-upload :show-file-list="false" :before-upload="handleImageUpload" multiple accept="image/*">
-            <el-button>📸 上传图片</el-button>
+            <el-button>
+              <el-icon><Picture /></el-icon>
+              上传图片
+            </el-button>
           </el-upload>
           <div class="image-preview"><el-image v-for="url in form.imageUrls" :key="url" :src="url" fit="cover" /></div>
         </el-form-item>
@@ -58,10 +78,11 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { addTravel, deleteTravel, getTravelDetail, getTravels } from '../api/travel'
+import { Picture, Plus } from '@element-plus/icons-vue'
+import { addTravel, deleteTravel, getTravelDetail, getTravels, updateTravel } from '../api/travel'
 import { uploadImage } from '../api/user'
 import { useUserStore } from '../stores/userStore'
 
@@ -74,15 +95,33 @@ const travels = ref([])
 const drawer = ref(false)
 const formVisible = ref(false)
 const current = ref(null)
+const editingFeeling = ref(false)
+const editedFeeling = ref('')
 const form = reactive({ locationName: '', country: '', city: '', longitude: 116.4074, latitude: 39.9042, travelDate: '', summary: '', detail: '', myFeeling: '', partnerFeeling: '', imageUrls: [] })
 let map = null
 let markers = []
 
 onMounted(load)
 
+watch(isCoupleBound, (bound) => {
+  if (bound) load()
+})
+
+watch(drawer, (val) => {
+  if (!val) {
+    editingFeeling.value = false
+    editedFeeling.value = ''
+  }
+})
+
 async function load() {
   if (isCoupleBound.value) {
-    try { travels.value = await getTravels() } catch (e) { travels.value = [] }
+    try {
+      const list = await getTravels()
+      travels.value = Array.isArray(list) ? list : []
+    } catch (e) {
+      // 保留已有数据，避免网络波动导致全部记录消失
+    }
   } else {
     travels.value = []
   }
@@ -97,8 +136,8 @@ function initMap() {
   console.log('开始初始化地图...')
   
   map = new AMap.Map(mapRef.value, {
-    zoom: 2,
-    center: [0, 20],
+    zoom: 4,
+    center: [104.072998, 35.86166],
     mapStyle: 'amap://styles/normal',
     viewMode: '2D'
   })
@@ -203,15 +242,38 @@ async function removeCurrent() {
   } catch {
     return
   }
+  const deleteId = current.value.id
   try {
-    await deleteTravel(current.value.id)
-    removeMarker(current.value.id)
-    travels.value = travels.value.filter(t => t.id !== current.value.id)
+    await deleteTravel(deleteId)
+    removeMarker(deleteId)
+    travels.value = travels.value.filter(t => t.id !== deleteId)
     ElMessage.success('删除成功')
     drawer.value = false
     current.value = null
+    await load()
   } catch {
     ElMessage.error('删除失败，请重试')
+  }
+}
+
+function startEditFeeling() {
+  editedFeeling.value = current.value.myFeeling || ''
+  editingFeeling.value = true
+}
+
+function cancelEditFeeling() {
+  editingFeeling.value = false
+  editedFeeling.value = ''
+}
+
+async function saveFeeling() {
+  try {
+    await updateTravel(current.value.id, { myFeeling: editedFeeling.value })
+    current.value.myFeeling = editedFeeling.value
+    editingFeeling.value = false
+    ElMessage.success('感受已更新')
+  } catch {
+    ElMessage.error('更新失败，请重试')
   }
 }
 
@@ -246,17 +308,30 @@ function handleMapClick(e) {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
+  min-height: calc(100vh - 126px);
 }
 
 .map-card {
   padding: 28px;
+  min-height: calc(100vh - 126px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .page-head {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.title-line {
+  display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .page-head h2 {
@@ -269,15 +344,38 @@ function handleMapClick(e) {
   margin: 6px 0 0;
 }
 
+.trip-count {
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 124, 168, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 247, 251, 0.74);
+  color: #8e5e73;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.add-travel-btn {
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
 .bind-tip {
   margin: 14px 0;
   border-radius: var(--love-radius-sm);
+  flex: 0 0 auto;
 }
 
 .map {
-  height: 560px;
+  flex: 1;
+  min-height: 520px;
   border-radius: var(--love-radius);
-  background: linear-gradient(135deg, #fff7e8, #e7dcff);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  background:
+    linear-gradient(135deg, rgba(255, 247, 232, 0.72), rgba(231, 220, 255, 0.72)),
+    radial-gradient(circle at 20% 20%, rgba(255, 124, 168, 0.18), transparent 30%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74);
+  overflow: hidden;
 }
 
 .travel-img {
@@ -325,6 +423,23 @@ function handleMapClick(e) {
   margin: 0;
 }
 
+.feeling-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.feeling-header h4 {
+  margin: 0;
+}
+
+.feeling-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+
 .image-preview {
   display: flex;
   flex-wrap: wrap;
@@ -345,6 +460,45 @@ function handleMapClick(e) {
 
 .full {
   width: 100%;
+}
+
+@media (max-width: 900px) {
+  .travel-wrap,
+  .map-card {
+    min-height: auto;
+  }
+
+  .map-card {
+    padding: 20px;
+  }
+
+  .page-head {
+    flex-direction: column;
+  }
+
+  .add-travel-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .map {
+    min-height: 460px;
+  }
+}
+
+@media (max-width: 640px) {
+  .map-card {
+    padding: 16px;
+  }
+
+  .page-head h2 {
+    font-size: 24px;
+  }
+
+  .map {
+    min-height: 380px;
+    border-radius: var(--love-radius-sm);
+  }
 }
 </style>
 

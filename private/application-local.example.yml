@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/couple_life?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: change-me
+  mail:
+    username:
+    password:
+
+app:
+  jwt:
+    secret: change-me-to-a-random-string-at-least-32-bytes
+  upload-dir: uploads
+  captcha:
+    expose-code: true
+  log:
+    path: logs
+  openai:
+    api-key:
+    base-url: https://text.pollinations.ai/openai
+    model: openai

@@ -1,0 +1,45 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+
+# Local assistant / tool state
+.omo/
+.superpowers/
+.opencode/
+
+# Dependencies
+**/node_modules/
+
+# Build outputs
+**/dist/
+**/target/
+
+# Runtime data
+logs/
+**/logs/
+**/uploads/
+*.log
+
+# Local environment and private runtime config
+.env
+.env.*
+!.env.example
+!**/.env.example
+private/*
+!private/
+!private/README.md
+!private/*.example.yml
+couple-life-backend/private/*
+!couple-life-backend/private/
+!couple-life-backend/private/*.example.yml
+
+# Local planning / generated task notes
+/task_plan.md
+/findings.md
+/progress.md
+
+# Accidental root npm lockfile when there is no root package.json
+/package-lock.json
