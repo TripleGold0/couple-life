@@ -3,7 +3,7 @@
     <!-- 导航栏 -->
     <header class="nav">
       <div class="nav-inner">
-        <div class="brand">💕 Couple Life</div>
+        <div class="brand"><Star /> Couple Life</div>
         <div class="nav-links">
           <a href="#features">功能</a>
           <a href="#how">流程</a>
@@ -60,7 +60,7 @@
       <p class="section-sub">从日常点滴到珍贵回忆，一个平台满足你们所有的记录需求</p>
       <div class="feature-grid">
         <div v-for="f in features" :key="f.title" class="feature-card love-card">
-          <div class="feature-icon">{{ f.icon }}</div>
+          <div class="feature-icon"><component :is="f.icon" /></div>
           <h3>{{ f.title }}</h3>
           <p>{{ f.desc }}</p>
         </div>
@@ -74,7 +74,7 @@
       <div class="steps">
         <div v-for="(step, i) in steps" :key="i" class="step">
           <div class="step-num">{{ i + 1 }}</div>
-          <div class="step-icon">{{ step.icon }}</div>
+          <div class="step-icon"><component :is="step.icon" /></div>
           <h3>{{ step.title }}</h3>
           <p>{{ step.desc }}</p>
         </div>
@@ -111,7 +111,7 @@
     <!-- 页脚 -->
     <footer class="footer">
       <div class="footer-inner">
-        <div class="footer-brand">💕 Couple Life</div>
+        <div class="footer-brand"><Star /> Couple Life</div>
         <div class="footer-links">
           <a href="#features">功能</a>
           <a href="#how">流程</a>
@@ -125,19 +125,21 @@
 </template>
 
 <script setup>
+import { Calendar, Camera, ChatDotRound, CircleCheck, Connection, DataAnalysis, EditPen, Location, Star } from '@element-plus/icons-vue'
+
 const features = [
-  { icon: '📅', title: '每日心情打卡', desc: '用 emoji + 文字记录今天的心情，和 TA 一起分享每一天的喜怒哀乐。' },
-  { icon: '🗺️', title: '旅行足迹地图', desc: '记录每一次出行，标注地点坐标，留下双人感受和旅途照片。' },
-  { icon: '📸', title: '共享情侣相册', desc: '按日期分组的照片墙，支持评论互动，一键批量导出 ZIP 留档。' },
-  { icon: '🤖', title: 'AI 情感顾问', desc: '内置心理咨询师，帮你们化解矛盾、增进理解，24 小时在线。' },
-  { icon: '🐱', title: '电子宠物共养', desc: '一起养一只电子宠物，喂食、抚摸、玩耍，见证 TA 从 Baby 成长到 Adult。' },
-  { icon: '📊', title: '恋爱数据看板', desc: '恋爱天数、打卡统计、旅行轨迹，用数据可视化你们的爱情故事。' }
+  { icon: Calendar, title: '每日心情打卡', desc: '用表情 + 文字记录今天的心情，和 TA 一起分享每一天的喜怒哀乐。' },
+  { icon: Location, title: '旅行足迹地图', desc: '记录每一次出行，标注地点坐标，留下双人感受和旅途照片。' },
+  { icon: Camera, title: '共享情侣相册', desc: '按日期分组的照片墙，支持评论互动，一键批量导出 ZIP 留档。' },
+  { icon: ChatDotRound, title: 'AI 情感顾问', desc: '内置心理咨询师，帮你们化解矛盾、增进理解，24 小时在线。' },
+  { icon: Star, title: '电子宠物共养', desc: '一起养一只电子宠物，喂食、抚摸、玩耍，见证 TA 从 Baby 成长到 Adult。' },
+  { icon: DataAnalysis, title: '恋爱数据看板', desc: '恋爱天数、打卡统计、旅行轨迹，用数据可视化你们的爱情故事。' }
 ]
 
 const steps = [
-  { icon: '✏️', title: '注册账号', desc: '手机号或邮箱注册，30 秒完成，立即进入你们的小天地。' },
-  { icon: '💌', title: '邀请 TA 绑定', desc: '分享你的专属邀请码，对方输入后即刻建立情侣关系。' },
-  { icon: '🎉', title: '开始记录', desc: '打卡、旅行、相册、养宠物……把每一个瞬间都变成永恒。' }
+  { icon: EditPen, title: '注册账号', desc: '手机号或邮箱注册，30 秒完成，立即进入你们的小天地。' },
+  { icon: Connection, title: '邀请 TA 绑定', desc: '分享你的专属邀请码，对方输入后即刻建立情侣关系。' },
+  { icon: CircleCheck, title: '开始记录', desc: '打卡、旅行、相册、养宠物……把每一个瞬间都变成永恒。' }
 ]
 
 const stories = [
@@ -177,6 +179,14 @@ const stories = [
   font-size: 20px;
   font-weight: 800;
   color: #ff6f9f;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.brand svg,
+.footer-brand svg {
+  width: 18px;
+  height: 18px;
 }
 .nav-links {
   display: flex;
@@ -218,7 +228,7 @@ const stories = [
   flex: 1;
 }
 .hero h1 {
-  font-size: 48px;
+  font-size: clamp(32px, 5vw, 48px);
   line-height: 1.25;
   margin: 0 0 20px;
 }
@@ -377,8 +387,15 @@ const stories = [
   box-shadow: 0 24px 64px rgba(255, 124, 168, 0.25);
 }
 .feature-icon {
-  font-size: 40px;
+  width: 44px;
+  height: 44px;
   margin-bottom: 16px;
+  color: var(--love-primary);
+}
+.feature-icon svg,
+.step-icon svg {
+  width: 100%;
+  height: 100%;
 }
 .feature-card h3 {
   font-size: 18px;
@@ -428,9 +445,12 @@ const stories = [
   justify-content: center;
 }
 .step-icon {
-  font-size: 44px;
+  width: 46px;
+  height: 46px;
   margin-bottom: 16px;
   margin-top: 8px;
+  color: var(--love-primary);
+  display: inline-flex;
 }
 .step h3 {
   font-size: 18px;
@@ -526,6 +546,9 @@ const stories = [
   font-weight: 800;
   color: #ff6f9f;
   margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
 }
 .footer-links {
   display: flex;
@@ -547,27 +570,56 @@ const stories = [
 
 /* ===== 响应式 ===== */
 @media (max-width: 768px) {
+  .nav-inner {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .brand {
+    font-size: 15px;
+  }
+  .nav-links {
+    gap: 8px;
+  }
   .nav-links a:not(.btn-login):not(.btn-register) {
     display: none;
   }
+  .btn-login,
+  .btn-register {
+    padding: 7px 12px;
+    white-space: nowrap;
+  }
   .hero {
     flex-direction: column;
-    padding: 100px 20px 60px;
+    padding: 92px 16px 56px;
     text-align: center;
+    gap: 34px;
   }
   .hero h1 {
-    font-size: 32px;
+    font-size: clamp(28px, 9vw, 34px);
   }
   .hero-sub {
     max-width: 100%;
+    font-size: 15px;
   }
   .hero-actions {
     justify-content: center;
     flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cta-primary,
+  .cta-secondary {
+    min-height: 44px;
+    padding: 12px 20px;
   }
   .hero-stats {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
   }
+  .stat-num { font-size: 17px; }
+  .stat-label { font-size: 12px; }
+  .phone-mockup { width: min(100%, 320px); }
   .feature-grid {
     grid-template-columns: 1fr;
   }

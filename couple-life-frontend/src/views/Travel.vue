@@ -85,6 +85,7 @@ import { Picture, Plus } from '@element-plus/icons-vue'
 import { addTravel, deleteTravel, getTravelDetail, getTravels, updateTravel } from '../api/travel'
 import { uploadImage } from '../api/user'
 import { useUserStore } from '../stores/userStore'
+import { loadAMap } from '../utils/amapLoader'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -100,6 +101,7 @@ const editedFeeling = ref('')
 const form = reactive({ locationName: '', country: '', city: '', longitude: 116.4074, latitude: 39.9042, travelDate: '', summary: '', detail: '', myFeeling: '', partnerFeeling: '', imageUrls: [] })
 let map = null
 let markers = []
+let AMapApi = null
 
 onMounted(load)
 
@@ -129,25 +131,32 @@ async function load() {
   initMap()
 }
 
-function initMap() {
+async function initMap() {
   if (!mapRef.value) return
   if (map) { map.destroy(); map = null }
-  
+
+  try {
+    AMapApi = await loadAMap()
+  } catch (_) {
+    ElMessage.error('地图加载失败，请稍后重试')
+    return
+  }
+
   console.log('开始初始化地图...')
-  
-  map = new AMap.Map(mapRef.value, {
+
+  map = new AMapApi.Map(mapRef.value, {
     zoom: 4,
     center: [104.072998, 35.86166],
     mapStyle: 'amap://styles/normal',
     viewMode: '2D'
   })
-  
+
   // 加载插件
-  AMap.plugin(['AMap.ToolBar', 'AMap.Scale', 'AMap.MapType'], function() {
+  AMapApi.plugin(['AMap.ToolBar', 'AMap.Scale', 'AMap.MapType'], function() {
     // 添加控件
-    map.addControl(new AMap.ToolBar({ position: 'LT' }))
-    map.addControl(new AMap.Scale({ position: 'LB' }))
-    map.addControl(new AMap.MapType({ position: 'RT' }))
+    map.addControl(new AMapApi.ToolBar({ position: 'LT' }))
+    map.addControl(new AMapApi.Scale({ position: 'LB' }))
+    map.addControl(new AMapApi.MapType({ position: 'RT' }))
   })
   
   // 加载标记
@@ -172,11 +181,11 @@ function loadMarkers() {
 function addMarker(travel) {
   if (!map) return
   
-  const marker = new AMap.Marker({
+  const marker = new AMapApi.Marker({
     position: [travel.longitude, travel.latitude],
     title: travel.locationName,
     content: '<div class="heart-marker"></div>',
-    offset: new AMap.Pixel(-10, -10)
+    offset: new AMapApi.Pixel(-10, -10)
   })
   
   marker.travelId = travel.id

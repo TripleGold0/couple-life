@@ -7,8 +7,14 @@
       </div>
       <div class="head-actions">
         <template v-if="!selectMode">
-          <el-button @click="enterSelectMode">🖼️ 批量选择</el-button>
-          <el-button type="primary" @click="uploadVisible = true">📤 上传照片</el-button>
+          <el-button @click="enterSelectMode">
+            <el-icon><Select /></el-icon>
+            批量选择
+          </el-button>
+          <el-button type="primary" @click="uploadVisible = true">
+            <el-icon><Upload /></el-icon>
+            上传照片
+          </el-button>
         </template>
         <template v-else>
           <el-button @click="toggleSelectAll">{{ allSelected ? '全不选' : '全选' }}</el-button>
@@ -60,7 +66,7 @@
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { Remove, CircleCheckFilled } from '@element-plus/icons-vue'
+import { CircleCheckFilled, Remove, Select, Upload } from '@element-plus/icons-vue'
 import { addPhotoComment, exportPhotos, getPhotoComments, getPhotos, uploadPhotos } from '../api/album'
 
 const groups = ref([])
@@ -179,6 +185,7 @@ function triggerDownload(blob, filename) {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   margin-bottom: 8px;
 }
 
@@ -195,6 +202,11 @@ function triggerDownload(blob, filename) {
 .head-actions {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
+}
+
+.head-actions .el-button {
+  gap: 6px;
 }
 
 .day-row {
@@ -322,5 +334,56 @@ function triggerDownload(blob, filename) {
   box-shadow: 0 12px 32px rgba(255, 124, 168, 0.25);
   backdrop-filter: blur(12px);
   z-index: 100;
+}
+
+@media (max-width: 640px) {
+  .album {
+    padding: 20px;
+    padding-bottom: 104px;
+  }
+
+  .page-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-head h2 {
+    font-size: 26px;
+  }
+
+  .head-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .head-actions .el-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .photos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .photo-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .comment-form {
+    flex-direction: column;
+  }
+
+  .select-bar {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    transform: none;
+    justify-content: space-between;
+    border-radius: var(--love-radius-sm);
+  }
 }
 </style>

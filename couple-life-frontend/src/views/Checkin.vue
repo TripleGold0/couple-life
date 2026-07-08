@@ -6,7 +6,8 @@
         <p>每一天只能打卡一次，把心情放进日历里。</p>
       </div>
       <el-button type="primary" size="large" @click="openToday">
-        <span style="margin-right: 6px">📝</span> 今日打卡
+        <el-icon><EditPen /></el-icon>
+        今日打卡
       </el-button>
     </div>
     <el-calendar v-model="currentDate">
@@ -46,6 +47,7 @@
 <script setup>
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
+import { EditPen } from '@element-plus/icons-vue'
 import { addCheckin, getCheckinCalendar, getCoupleCheckins } from '../api/checkin'
 
 const currentDate = ref(new Date())
@@ -89,6 +91,7 @@ async function submit() {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 18px;
   margin-bottom: 20px;
 }
 
@@ -104,6 +107,11 @@ async function submit() {
 
 .full {
   width: 100%;
+}
+
+.page-head .el-button {
+  flex: 0 0 auto;
+  gap: 6px;
 }
 
 .calendar-cell {
@@ -177,5 +185,34 @@ async function submit() {
   margin: 8px 0 0;
   color: var(--love-text);
   line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .checkin-page {
+    padding: 20px;
+  }
+
+  .page-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-head h2 {
+    font-size: 26px;
+  }
+
+  .page-head .el-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .calendar-cell {
+    height: 68px;
+    padding: 6px;
+  }
+
+  .emojis {
+    flex-wrap: wrap;
+  }
 }
 </style>

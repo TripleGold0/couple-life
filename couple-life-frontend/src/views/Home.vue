@@ -44,7 +44,7 @@
     </section>
 
     <router-link v-for="card in cards" :key="card.path" :to="card.path" class="entry love-card">
-      <div class="icon">{{ card.icon }}</div>
+      <div class="icon"><component :is="card.icon" /></div>
       <h3>{{ card.title }}</h3>
       <p>{{ card.desc }}</p>
     </router-link>
@@ -53,6 +53,7 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue'
+import { Calendar, Camera, ChatDotRound, Location, Star, User } from '@element-plus/icons-vue'
 import { getHomeSummary } from '../api/user'
 import { useUserStore } from '../stores/userStore'
 import { avatarOf } from '../utils/defaultAvatar'
@@ -61,12 +62,12 @@ const userStore = useUserStore()
 const user = computed(() => userStore.user)
 const summary = ref(null)
 const cards = [
-  { path: '/app/checkin', icon: '😊', title: '每日心情打卡', desc: '在日历上留下今天的表情和一句话。' },
-  { path: '/app/travel', icon: '🗺️', title: '旅行地图日志', desc: '点亮一起去过的世界角落。' },
-  { path: '/app/album', icon: '📷', title: '情侣相册', desc: '按日期收藏照片和评论。' },
-  { path: '/app/counselor', icon: '💗', title: '情感顾问', desc: '专业温柔的 AI 情感陪伴。' },
-  { path: '/app/pet', icon: '🐾', title: '电子宠物', desc: '一起喂养属于你们的小宠物。' },
-  { path: '/app/profile', icon: '💌', title: '个人信息', desc: '维护资料、绑定另一半。' }
+  { path: '/app/checkin', icon: Calendar, title: '每日心情打卡', desc: '在日历上留下今天的表情和一句话。' },
+  { path: '/app/travel', icon: Location, title: '旅行地图日志', desc: '点亮一起去过的世界角落。' },
+  { path: '/app/album', icon: Camera, title: '情侣相册', desc: '按日期收藏照片和评论。' },
+  { path: '/app/counselor', icon: ChatDotRound, title: '情感顾问', desc: '专业温柔的 AI 情感陪伴。' },
+  { path: '/app/pet', icon: Star, title: '电子宠物', desc: '一起喂养属于你们的小宠物。' },
+  { path: '/app/profile', icon: User, title: '个人信息', desc: '维护资料、绑定另一半。' }
 ]
 onMounted(async () => { summary.value = await getHomeSummary().catch(() => null) })
 </script>
@@ -197,8 +198,15 @@ p {
 }
 
 .icon {
-  font-size: 36px;
+  width: 38px;
+  height: 38px;
   margin-bottom: 8px;
+  color: var(--love-primary);
+}
+
+.icon svg {
+  width: 100%;
+  height: 100%;
 }
 
 /* 响应式 */

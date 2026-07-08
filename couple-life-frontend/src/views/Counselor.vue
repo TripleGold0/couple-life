@@ -2,12 +2,18 @@
   <div class="love-card counselor-page">
     <div class="page-head">
       <div>
-        <h2 class="gradient-title">💗 情感陪伴顾问</h2>
+        <h2 class="gradient-title">情感陪伴顾问</h2>
         <p>专业、中立、温柔的情侣情感调节，帮你化解矛盾、增进理解。</p>
       </div>
       <div class="head-actions">
-        <el-button @click="settingsVisible = true" :disabled="loading">⚙️ 模型设置</el-button>
-        <el-button @click="resetChat" :disabled="loading">🔄 新对话</el-button>
+        <el-button @click="settingsVisible = true" :disabled="loading">
+          <el-icon><Setting /></el-icon>
+          模型设置
+        </el-button>
+        <el-button @click="resetChat" :disabled="loading">
+          <el-icon><Refresh /></el-icon>
+          新对话
+        </el-button>
       </div>
     </div>
 
@@ -49,7 +55,7 @@
     </div>
 
     <div class="composer">
-      <el-input v-model="input" type="textarea" :rows="3" resize="none" :disabled="loading" placeholder="把你的感受、最近发生的事告诉我吧（Ctrl/⌘ + Enter 发送）" @keydown.ctrl.enter.prevent="send" @keydown.meta.enter.prevent="send" />
+      <el-input v-model="input" type="textarea" :rows="3" resize="none" :disabled="loading" placeholder="把你的感受、最近发生的事告诉我吧" @keydown.ctrl.enter.prevent="send" @keydown.meta.enter.prevent="send" />
       <div class="actions">
         <span class="hint">🔒 所有对话仅用于本次会话，不会被永久保存</span>
         <el-button type="primary" :loading="loading" @click="send" :disabled="!input.trim()">发送</el-button>
@@ -61,6 +67,7 @@
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import { Refresh, Setting } from '@element-plus/icons-vue'
 import { clearLlmConfig, counselorChat, getLlmConfig, saveLlmConfig } from '../api/counselor'
 import { useUserStore } from '../stores/userStore'
 
@@ -164,6 +171,10 @@ onMounted(() => { loadSettingsForm(); loadGreeting() })
   gap: 8px;
 }
 
+.head-actions .el-button {
+  gap: 6px;
+}
+
 .chat-window {
   flex: 1;
   overflow-y: auto;
@@ -250,5 +261,50 @@ onMounted(() => { loadSettingsForm(); loadGreeting() })
   font-size: 12px;
   color: var(--love-text-light);
   margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .counselor-page {
+    padding: 20px;
+    min-height: auto;
+  }
+
+  .page-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-head h2 {
+    font-size: 26px;
+  }
+
+  .head-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .head-actions .el-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .chat-window {
+    min-height: 420px;
+    padding: 16px;
+  }
+
+  .bubble {
+    max-width: 82%;
+  }
+
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .actions .el-button {
+    width: 100%;
+  }
 }
 </style>

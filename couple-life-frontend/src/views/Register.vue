@@ -14,29 +14,29 @@
 
       <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
         <el-row :gutter="14">
-          <el-col :span="12"><el-form-item label="用户名" prop="username"><el-input v-model="form.username" placeholder="设置登录用户名" /></el-form-item></el-col>
-          <el-col :span="12"><el-form-item label="昵称" prop="nickname"><el-input v-model="form.nickname" placeholder="对方看到的名字" /></el-form-item></el-col>
+          <el-col :span="formColSpan"><el-form-item label="用户名" prop="username"><el-input v-model="form.username" placeholder="设置登录用户名" /></el-form-item></el-col>
+          <el-col :span="formColSpan"><el-form-item label="昵称" prop="nickname"><el-input v-model="form.nickname" placeholder="对方看到的名字" /></el-form-item></el-col>
         </el-row>
         <el-form-item label="性别" prop="gender">
           <el-radio-group v-model="form.gender" class="gender-group">
-            <el-radio-button :value="1">🧑 男</el-radio-button>
-            <el-radio-button :value="2">👩 女</el-radio-button>
-            <el-radio-button :value="0">🫣 保密</el-radio-button>
+            <el-radio-button :value="1">男</el-radio-button>
+            <el-radio-button :value="2">女</el-radio-button>
+            <el-radio-button :value="0">保密</el-radio-button>
           </el-radio-group>
         </el-form-item>
 
         <el-form-item label="账号类型">
           <el-radio-group v-model="accountType" @change="onAccountTypeChange">
-            <el-radio value="phone">📱 手机号</el-radio>
-            <el-radio value="email">📧 邮箱</el-radio>
+            <el-radio value="phone">手机号</el-radio>
+            <el-radio value="email">邮箱</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="accountType === 'phone'" label="手机号" prop="phone"><el-input v-model="form.phone" maxlength="11" placeholder="请输入手机号" /></el-form-item>
         <el-form-item v-else label="邮箱" prop="email"><el-input v-model="form.email" placeholder="请输入邮箱" /></el-form-item>
 
         <el-row :gutter="14">
-          <el-col :span="12"><el-form-item label="密码" prop="password"><el-input v-model="form.password" type="password" show-password placeholder="至少 6 位" /></el-form-item></el-col>
-          <el-col :span="12"><el-form-item label="确认密码" prop="confirmPassword"><el-input v-model="form.confirmPassword" type="password" show-password placeholder="再次输入密码" /></el-form-item></el-col>
+          <el-col :span="formColSpan"><el-form-item label="密码" prop="password"><el-input v-model="form.password" type="password" show-password placeholder="至少 6 位" /></el-form-item></el-col>
+          <el-col :span="formColSpan"><el-form-item label="确认密码" prop="confirmPassword"><el-input v-model="form.confirmPassword" type="password" show-password placeholder="再次输入密码" /></el-form-item></el-col>
         </el-row>
         <el-form-item label="验证码" prop="captcha">
           <div class="captcha-row"><el-input v-model="form.captcha" placeholder="请输入验证码" /><el-button @click="getCaptcha">获取验证码</el-button></div>
@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { register, sendCaptcha } from '../api/auth'
@@ -58,6 +58,7 @@ import { isPhone, isEmail, phoneValidator, emailValidator } from '../utils/valid
 const router = useRouter()
 const formRef = ref()
 const accountType = ref('phone')
+const formColSpan = ref(window.innerWidth <= 640 ? 24 : 12)
 const form = reactive({ username: '', nickname: '', gender: 2, phone: '', email: '', password: '', confirmPassword: '', captcha: '' })
 const samePassword = (rule, value, callback) => value === form.password ? callback() : callback(new Error('两次输入的密码不一致'))
 const rules = {
@@ -78,6 +79,13 @@ function onAccountTypeChange() {
   if (accountType.value === 'phone') form.email = ''
   else form.phone = ''
 }
+
+function updateFormColSpan() {
+  formColSpan.value = window.innerWidth <= 640 ? 24 : 12
+}
+
+onMounted(() => { window.addEventListener('resize', updateFormColSpan) })
+onBeforeUnmount(() => { window.removeEventListener('resize', updateFormColSpan) })
 
 async function getCaptcha() {
   if (accountType.value === 'phone') {
@@ -135,7 +143,7 @@ async function submit() {
 }
 
 .auth-card {
-  width: 580px;
+  width: min(100%, 580px);
   padding: 40px;
   position: relative;
   z-index: 1;
@@ -197,5 +205,39 @@ h1 {
 .switch a {
   color: var(--love-primary);
   font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .auth-page {
+    padding: 16px;
+    overflow-x: hidden;
+  }
+
+  .auth-card {
+    padding: 28px 20px;
+  }
+
+  h1 {
+    font-size: 27px;
+  }
+
+  .gender-group {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .gender-group .el-radio-button {
+    margin-right: 0;
+  }
+
+  .captcha-row {
+    flex-wrap: wrap;
+  }
+
+  .captcha-row .el-button {
+    width: 100%;
+  }
 }
 </style>

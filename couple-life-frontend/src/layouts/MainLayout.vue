@@ -1,12 +1,35 @@
 <template>
   <div class="app-shell">
     <aside class="side love-card">
-      <div class="brand">💕 Couple Life</div>
-      <nav class="nav-list">
+      <div class="brand">
+        <el-icon><StarFilled /></el-icon>
+        <span>Couple Life</span>
+      </div>
+      <nav class="nav-list desktop-nav">
         <router-link v-for="item in menus" :key="item.path" :to="item.path" class="menu-item">
           <component :is="item.icon" :size="18" />
           <span>{{ item.label }}</span>
         </router-link>
+      </nav>
+      <nav class="mobile-primary-nav" aria-label="主要导航">
+        <router-link v-for="item in primaryMobileMenus" :key="item.path" :to="item.path" class="menu-item">
+          <component :is="item.icon" :size="18" />
+          <span>{{ item.label }}</span>
+        </router-link>
+        <el-dropdown trigger="click" placement="bottom-end">
+          <button class="menu-item mobile-more-nav" :class="{ 'is-active': secondaryMobileMenus.some(item => item.path === route.path) }" type="button">
+            <MoreFilled :size="18" />
+            <span>更多</span>
+          </button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item v-for="item in secondaryMobileMenus" :key="item.path" @click="router.push(item.path)">
+                <el-icon><component :is="item.icon" /></el-icon>
+                {{ item.label }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </nav>
       <div class="side-footer">
         <div class="side-hint">记录每一个甜蜜瞬间</div>
@@ -40,14 +63,15 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { Calendar, Camera, ChatDotRound, HomeFilled, Location, Star, User } from '@element-plus/icons-vue'
+import { useRoute, useRouter } from 'vue-router'
+import { Calendar, Camera, ChatDotRound, HomeFilled, Location, MoreFilled, Star, StarFilled, User } from '@element-plus/icons-vue'
 import { useUserStore } from '../stores/userStore'
 import { avatarOf } from '../utils/defaultAvatar'
 import ProfileSetupDialog from '../components/ProfileSetupDialog.vue'
 import FloatingPet from '../components/FloatingPet.vue'
 
 const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 const showProfileDialog = ref(false)
 const menus = [
@@ -59,6 +83,8 @@ const menus = [
   { path: '/app/pet', label: '电子宠物', icon: Star },
   { path: '/app/profile', label: '个人信息', icon: User }
 ]
+const primaryMobileMenus = menus.filter(item => ['/app/home', '/app/checkin', '/app/album', '/app/profile'].includes(item.path))
+const secondaryMobileMenus = menus.filter(item => !primaryMobileMenus.includes(item))
 
 onMounted(async () => {
   try {
@@ -103,6 +129,9 @@ function logout() {
   color: var(--love-primary);
   padding: 0 8px;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 7px;
 }
 
 .nav-list {
@@ -112,16 +141,25 @@ function logout() {
   gap: 4px;
 }
 
+.mobile-primary-nav {
+  display: none;
+}
+
 .menu-item {
   display: flex;
   gap: 8px;
   align-items: center;
+  justify-content: flex-start;
   min-height: 46px;
   padding: 10px 10px;
   border-radius: 12px;
   color: #765567;
   font-size: 13px;
   line-height: 1.25;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
   transition: all 0.2s;
 }
 
@@ -135,7 +173,8 @@ function logout() {
   background: rgba(255, 214, 231, 0.3);
 }
 
-.menu-item.router-link-active {
+.menu-item.router-link-active,
+.menu-item.is-active {
   background: linear-gradient(90deg, #ffd6e7, #fff1cc);
   color: var(--love-primary);
   font-weight: 700;
@@ -210,15 +249,30 @@ function logout() {
     margin-bottom: 14px;
   }
 
-  .nav-list {
-    flex-direction: row;
-    overflow-x: auto;
-    padding-bottom: 2px;
+  .desktop-nav {
+    display: none;
   }
 
-  .menu-item {
-    flex: 0 0 auto;
-    min-width: 108px;
+  .mobile-primary-nav {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .mobile-primary-nav :deep(.el-dropdown) {
+    min-width: 0;
+  }
+
+  .mobile-primary-nav .menu-item {
+    flex-direction: row;
+    width: 100%;
+    min-height: 54px;
+    padding: 8px 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+    text-align: center;
+    touch-action: manipulation;
   }
 
   .side-footer {

@@ -7,5 +7,10 @@
 -->
 <template>
   <!-- 路由出口：根据当前 URL 渲染对应的页面组件 -->
+  <ParticleBackground />
   <router-view />
 </template>
+
+<script setup>
+import ParticleBackground from './components/ParticleBackground.vue'
+</script>

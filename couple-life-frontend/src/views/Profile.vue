@@ -2,13 +2,19 @@
   <div class="profile love-card">
     <div class="head">
       <h2 class="gradient-title">个人信息</h2>
-      <el-button type="primary" plain @click="editing = !editing">{{ editing ? '取消' : '✏️ 编辑资料' }}</el-button>
+      <el-button type="primary" plain @click="editing = !editing">
+        <el-icon v-if="!editing"><EditPen /></el-icon>
+        {{ editing ? '取消' : '编辑资料' }}
+      </el-button>
     </div>
     <div class="info">
       <div class="avatar-box">
         <el-avatar :size="96" :src="form.avatar || user?.avatar || defaultAvatarFor(editing ? form.gender : user?.gender)">{{ user?.nickname?.[0] }}</el-avatar>
         <el-upload v-if="editing" :show-file-list="false" :before-upload="handleAvatarUpload" accept="image/*">
-          <el-button size="small">📸 更换头像</el-button>
+          <el-button size="small">
+            <el-icon><Camera /></el-icon>
+            更换头像
+          </el-button>
         </el-upload>
         <div v-if="editing && !form.avatar" class="hint">未上传时将使用默认头像</div>
       </div>
@@ -32,14 +38,17 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="生日"><el-date-picker v-model="form.birthday" value-format="YYYY-MM-DD" style="width: 100%" /></el-form-item>
-            <el-button type="primary" size="large" class="full" @click="save">💾 保存修改</el-button>
+            <el-button type="primary" size="large" class="full" @click="save">
+              <el-icon><Check /></el-icon>
+              保存修改
+            </el-button>
           </el-form>
         </template>
       </div>
     </div>
 
     <el-divider />
-    <h3>🐱 电子宠物</h3>
+    <h3 class="section-heading"><el-icon><Star /></el-icon>电子宠物</h3>
     <div class="pet-toggle-row">
       <div>
         <p class="toggle-title">显示悬浮电子宠物</p>
@@ -49,7 +58,7 @@
     </div>
 
     <el-divider />
-    <h3>💕 情侣关系</h3>
+    <h3 class="section-heading"><el-icon><Link /></el-icon>情侣关系</h3>
     <div v-if="user?.partner" class="partner-card">
       <div class="partner">
         <el-avatar :src="avatarOf(user.partner)">{{ user.partner.nickname?.[0] }}</el-avatar>
@@ -69,7 +78,10 @@
         <p>或输入对方的邀请码进行绑定：</p>
         <el-input v-model="bindForm.inviteCode" placeholder="输入对方邀请码" style="margin-bottom: 10px" />
         <el-date-picker v-model="bindForm.loveStartDate" value-format="YYYY-MM-DD" placeholder="恋爱开始日期" style="margin-bottom: 10px; width: 100%" />
-        <el-button type="primary" size="large" class="full" @click="onBind">💌 绑定情侣</el-button>
+        <el-button type="primary" size="large" class="full" @click="onBind">
+          <el-icon><Connection /></el-icon>
+          绑定情侣
+        </el-button>
       </div>
     </div>
   </div>
@@ -78,6 +90,7 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { Camera, Check, Connection, EditPen, Link, Star } from '@element-plus/icons-vue'
 import { bindCouple, unbindCouple, updateProfile, uploadImage } from '../api/user'
 import { updatePetDisplay } from '../api/pet'
 import { useUserStore } from '../stores/userStore'
@@ -275,6 +288,18 @@ p {
 h3 {
   font-size: 18px;
   margin: 0 0 14px;
+}
+
+.section-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-heading .el-icon,
+.head .el-icon,
+.full .el-icon {
+  color: var(--love-primary);
 }
 
 @media (max-width: 640px) {

@@ -230,7 +230,7 @@ onBeforeUnmount(() => {
 }
 
 .auth-card {
-  width: 460px;
+  width: min(100%, 460px);
   padding: 40px;
   position: relative;
   z-index: 1;
@@ -305,5 +305,29 @@ h1 {
 .switch a {
   color: var(--love-primary);
   font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .auth-page {
+    padding: 16px;
+    overflow-x: hidden;
+  }
+
+  .auth-card {
+    padding: 28px 20px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  .captcha-row {
+    flex-wrap: wrap;
+  }
+
+  .captcha-row .el-button,
+  .captcha-img {
+    width: 100%;
+  }
 }
 </style>

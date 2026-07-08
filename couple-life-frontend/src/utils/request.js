@@ -27,6 +27,18 @@ const request = axios.create({
   timeout: 15000
 })
 
+let lastErrorMessage = ''
+let lastErrorAt = 0
+
+function showErrorMessage(message) {
+  const text = message || '请求失败'
+  const now = Date.now()
+  if (text === lastErrorMessage && now - lastErrorAt < 1800) return
+  lastErrorMessage = text
+  lastErrorAt = now
+  ElMessage.error(text)
+}
+
 /**
  * 请求拦截器：注入 token + 记录请求起始时间 + 打日志
  */
@@ -70,14 +82,14 @@ request.interceptors.response.use(response => {
   // 业务码 401：登录已过期
   if (result.code === 401) {
     log.warn(`<-- ${response.config.url} 401 ${cost}ms`, result.message)
-    ElMessage.error(result.message || '登录已过期，请重新登录')
+    showErrorMessage(result.message || '登录已过期，请重新登录')
     handleUnauthorized()
     return Promise.reject(new Error(result.message || '未登录'))
   }
   // 业务码非 200：通用业务失败
   if (result.code !== 200) {
     log.warn(`<-- ${response.config.url} biz-fail ${cost}ms`, result)
-    ElMessage.error(result.message || '请求失败')
+    showErrorMessage(result.message || '请求失败')
     return Promise.reject(new Error(result.message || '请求失败'))
   }
   // 成功：剥掉 code/message 包装，把 data 直接吐给业务层
@@ -91,10 +103,10 @@ request.interceptors.response.use(response => {
   log.error(`<-- ${url} ${status || 'NETWORK'} ${cost}ms`, error.response?.data || error.message)
   if (status === 401 || status === 403) {
     // HTTP 层鉴权失败也走统一登出流程
-    ElMessage.error('登录已过期，请重新登录')
+    showErrorMessage('登录已过期，请重新登录')
     handleUnauthorized()
   } else {
-    ElMessage.error(error.response?.data?.message || '网络异常')
+    showErrorMessage(error.response?.data?.message || '网络异常')
   }
   return Promise.reject(error)
 })
