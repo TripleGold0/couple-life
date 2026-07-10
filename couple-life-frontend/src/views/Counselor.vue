@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <el-dialog v-model="settingsVisible" title="⚙️ 自定义模型设置" width="520px">
+  <el-dialog v-model="settingsVisible" title="自定义模型设置" width="520px">
       <el-alert type="info" :closable="false" show-icon title="默认免费：Pollinations.ai（无需 API Key）" description="如需更高质量，可填入任意 OpenAI 兼容服务。配置仅保存在本浏览器，不会上传服务器。" />
       <el-form :model="settingsForm" label-width="90px" style="margin-top: 18px;">
         <el-form-item label="Base URL">
@@ -40,7 +40,7 @@
 
     <div class="chat-window" ref="chatWindow">
       <div v-for="(msg, idx) in messages" :key="idx" class="bubble-row" :class="msg.role">
-        <el-avatar v-if="msg.role === 'assistant'" class="avatar assistant-avatar" :size="36">💗</el-avatar>
+        <el-avatar v-if="msg.role === 'assistant'" class="avatar assistant-avatar" :size="36">顾</el-avatar>
         <div class="bubble" :class="msg.role">
           <div class="content" v-text="msg.content"></div>
         </div>
@@ -49,7 +49,7 @@
         </el-avatar>
       </div>
       <div v-if="loading" class="bubble-row assistant">
-        <el-avatar class="avatar assistant-avatar" :size="36">💗</el-avatar>
+      <el-avatar class="avatar assistant-avatar" :size="36">顾</el-avatar>
         <div class="bubble assistant"><div class="content typing">顾问正在思考…</div></div>
       </div>
     </div>
@@ -57,7 +57,7 @@
     <div class="composer">
       <el-input v-model="input" type="textarea" :rows="3" resize="none" :disabled="loading" placeholder="把你的感受、最近发生的事告诉我吧" @keydown.ctrl.enter.prevent="send" @keydown.meta.enter.prevent="send" />
       <div class="actions">
-        <span class="hint">🔒 所有对话仅用于本次会话，不会被永久保存</span>
+        <span class="hint">所有对话仅用于本次会话，不会被永久保存</span>
         <el-button type="primary" :loading="loading" @click="send" :disabled="!input.trim()">发送</el-button>
       </div>
     </div>

@@ -1,5 +1,6 @@
 <template>
   <div class="auth-page">
+    <ParticleBackground />
     <div class="deco deco-1">💌</div>
     <div class="deco deco-2">🌸</div>
     <div class="deco deco-3">✨</div>
@@ -54,6 +55,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { register, sendCaptcha } from '../api/auth'
 import { isPhone, isEmail, phoneValidator, emailValidator } from '../utils/validators'
+import ParticleBackground from '../components/ParticleBackground.vue'
 
 const router = useRouter()
 const formRef = ref()

@@ -93,6 +93,6 @@ async function submit() {
 </script>
 
 <style scoped>
-.tip { color: #9b7587; margin-bottom: 12px; }
+.tip { color: var(--color-text-secondary); margin-bottom: 12px; }
 .full { width: 100%; }
 </style>

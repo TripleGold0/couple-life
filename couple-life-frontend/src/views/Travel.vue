@@ -33,7 +33,7 @@
           <el-divider />
           <div class="feeling-section">
             <div class="feeling-header">
-              <h4>💬 我的感受</h4>
+          <h4>我的感受</h4>
               <el-button v-if="!editingFeeling" type="primary" link @click="startEditFeeling">编辑</el-button>
             </div>
             <template v-if="!editingFeeling">
@@ -48,13 +48,13 @@
             </template>
           </div>
           <div class="feeling-section">
-            <h4>💕 伴侣感受</h4><p>{{ current.partnerFeeling }}</p>
+        <h4>伴侣感受</h4><p>{{ current.partnerFeeling }}</p>
           </div>
           <el-button type="danger" plain @click="removeCurrent">删除记录</el-button>
         </div>
       </template>
     </el-drawer>
-    <el-dialog v-model="formVisible" title="✈️ 新增旅行记录" width="640px">
+  <el-dialog v-model="formVisible" title="新增旅行记录" width="640px">
       <el-form :model="form" label-position="top">
         <el-row :gutter="12"><el-col :span="12"><el-form-item label="地点"><el-input v-model="form.locationName" placeholder="去了哪里？" /></el-form-item></el-col><el-col :span="12"><el-form-item label="旅行日期"><el-date-picker v-model="form.travelDate" value-format="YYYY-MM-DD" style="width: 100%" /></el-form-item></el-col></el-row>
         <el-row :gutter="12"><el-col :span="12"><el-form-item label="经度"><el-input-number v-model="form.longitude" :precision="6" style="width: 100%" /></el-form-item></el-col><el-col :span="12"><el-form-item label="纬度"><el-input-number v-model="form.latitude" :precision="6" style="width: 100%" /></el-form-item></el-col></el-row>
@@ -236,7 +236,7 @@ async function save() {
   if (!form.locationName?.trim()) return ElMessage.warning('请填写地点名称')
   if (!form.travelDate) return ElMessage.warning('请选择旅行日期')
   await addTravel({ ...form })
-  ElMessage.success('新增成功 ✈️')
+    ElMessage.success('新增成功')
   formVisible.value = false
   await load()
 }

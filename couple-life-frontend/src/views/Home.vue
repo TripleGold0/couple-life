@@ -14,7 +14,7 @@
     </section>
 
     <section class="block love-card">
-      <h3>😊 最近的心情</h3>
+      <h3>最近的心情</h3>
       <el-empty v-if="!summary?.recentCheckins?.length" description="还没有打卡，去记录今天的心情吧" />
       <div v-else class="checkin-list">
         <div v-for="item in summary.recentCheckins" :key="item.id" class="checkin-item">
@@ -25,7 +25,7 @@
     </section>
 
     <section class="block love-card">
-      <h3>🗺️ 最近的旅行</h3>
+      <h3>最近的旅行</h3>
       <el-empty v-if="!summary?.recentTravels?.length" description="还没有旅行记录" />
       <div v-else class="travel-list">
         <div v-for="item in summary.recentTravels" :key="item.id" class="travel-item">
@@ -36,7 +36,7 @@
     </section>
 
     <section class="block love-card">
-      <h3>📸 最近的照片</h3>
+      <h3>最近的照片</h3>
       <el-empty v-if="!summary?.recentPhotos?.length" description="还没有上传照片" />
       <div v-else class="photo-list">
         <el-image v-for="photo in summary.recentPhotos" :key="photo.id" :src="photo.imageUrl" fit="cover" class="photo" />

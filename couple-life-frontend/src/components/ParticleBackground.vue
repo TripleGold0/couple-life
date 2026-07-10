@@ -11,46 +11,29 @@
         '--delay': particle.delay + 's',
         '--duration': particle.duration + 's',
         '--drift': particle.drift + 'px',
+        '--rise': particle.rise + 'px',
         '--alpha': particle.alpha,
+        '--trail': particle.trail + 'px',
         '--hue': particle.hue
       }"
-    >
-      <span class="particle-halo" />
-      <span class="particle-core" />
-    </span>
+    />
   </div>
 </template>
 
 <script setup>
 const particles = [
-  { id: 1, x: 7, y: 12, size: 12, delay: -1, duration: 12, drift: -34, alpha: 0.78, hue: '255, 111, 159' },
-  { id: 2, x: 16, y: 66, size: 9, delay: -8, duration: 16, drift: 42, alpha: 0.62, hue: '181, 140, 255' },
-  { id: 3, x: 25, y: 28, size: 7, delay: -4, duration: 10, drift: 28, alpha: 0.76, hue: '255, 255, 255' },
-  { id: 4, x: 38, y: 76, size: 11, delay: -10, duration: 17, drift: -38, alpha: 0.58, hue: '255, 201, 169' },
-  { id: 5, x: 51, y: 18, size: 14, delay: -6, duration: 15, drift: 40, alpha: 0.64, hue: '255, 111, 159' },
-  { id: 6, x: 64, y: 56, size: 8, delay: -12, duration: 13, drift: -30, alpha: 0.72, hue: '255, 255, 255' },
-  { id: 7, x: 76, y: 34, size: 10, delay: -3, duration: 18, drift: 46, alpha: 0.56, hue: '181, 140, 255' },
-  { id: 8, x: 88, y: 82, size: 13, delay: -9, duration: 14, drift: -42, alpha: 0.64, hue: '255, 111, 159' },
-  { id: 9, x: 11, y: 86, size: 8, delay: -14, duration: 17, drift: 34, alpha: 0.52, hue: '255, 201, 169' },
-  { id: 10, x: 22, y: 46, size: 15, delay: -2, duration: 20, drift: -48, alpha: 0.5, hue: '255, 255, 255' },
-  { id: 11, x: 34, y: 8, size: 9, delay: -11, duration: 12, drift: 26, alpha: 0.7, hue: '255, 111, 159' },
-  { id: 12, x: 47, y: 92, size: 7, delay: -7, duration: 11, drift: -26, alpha: 0.58, hue: '181, 140, 255' },
-  { id: 13, x: 59, y: 40, size: 16, delay: -15, duration: 21, drift: 42, alpha: 0.48, hue: '255, 214, 231' },
-  { id: 14, x: 72, y: 12, size: 10, delay: -5, duration: 15, drift: -32, alpha: 0.66, hue: '255, 255, 255' },
-  { id: 15, x: 84, y: 52, size: 12, delay: -13, duration: 18, drift: 38, alpha: 0.52, hue: '255, 111, 159' },
-  { id: 16, x: 94, y: 24, size: 7, delay: -6, duration: 13, drift: -24, alpha: 0.78, hue: '181, 140, 255' },
-  { id: 17, x: 5, y: 38, size: 15, delay: -16, duration: 22, drift: 40, alpha: 0.46, hue: '255, 255, 255' },
-  { id: 18, x: 31, y: 70, size: 9, delay: -4, duration: 14, drift: -34, alpha: 0.58, hue: '255, 111, 159' },
-  { id: 19, x: 57, y: 66, size: 11, delay: -9, duration: 16, drift: 30, alpha: 0.54, hue: '181, 140, 255' },
-  { id: 20, x: 92, y: 70, size: 14, delay: -12, duration: 19, drift: -46, alpha: 0.5, hue: '255, 201, 169' },
-  { id: 21, x: 14, y: 20, size: 7, delay: -18, duration: 12, drift: 32, alpha: 0.68, hue: '255, 255, 255' },
-  { id: 22, x: 44, y: 50, size: 10, delay: -20, duration: 15, drift: -36, alpha: 0.56, hue: '255, 111, 159' },
-  { id: 23, x: 70, y: 88, size: 12, delay: -17, duration: 17, drift: 44, alpha: 0.48, hue: '181, 140, 255' },
-  { id: 24, x: 82, y: 6, size: 8, delay: -21, duration: 14, drift: -28, alpha: 0.7, hue: '255, 255, 255' },
-  { id: 25, x: 40, y: 22, size: 6, delay: -5, duration: 9, drift: 20, alpha: 0.9, hue: '255, 255, 255' },
-  { id: 26, x: 68, y: 72, size: 6, delay: -7, duration: 10, drift: -22, alpha: 0.84, hue: '255, 255, 255' },
-  { id: 27, x: 97, y: 42, size: 9, delay: -12, duration: 16, drift: -36, alpha: 0.62, hue: '255, 111, 159' },
-  { id: 28, x: 2, y: 72, size: 10, delay: -3, duration: 17, drift: 38, alpha: 0.58, hue: '181, 140, 255' }
+  { id: 1, x: 5, y: 13, size: 9, delay: -2, duration: 9, drift: 18, rise: 68, alpha: 0.72, trail: 72, hue: '201 54 101' },
+  { id: 2, x: 14, y: 76, size: 7, delay: -8, duration: 12, drift: 24, rise: 58, alpha: 0.62, trail: 58, hue: '116 90 194' },
+  { id: 3, x: 82, y: 12, size: 10, delay: -5, duration: 10, drift: -22, rise: 72, alpha: 0.68, trail: 76, hue: '201 54 101' },
+  { id: 4, x: 91, y: 69, size: 8, delay: -3, duration: 8, drift: -18, rise: 62, alpha: 0.70, trail: 62, hue: '116 90 194' },
+  { id: 5, x: 7, y: 45, size: 6, delay: -7, duration: 11, drift: 20, rise: 52, alpha: 0.58, trail: 52, hue: '201 54 101' },
+  { id: 6, x: 87, y: 42, size: 6, delay: -10, duration: 13, drift: -24, rise: 56, alpha: 0.64, trail: 54, hue: '201 54 101' },
+  { id: 7, x: 24, y: 8, size: 5, delay: -4, duration: 10, drift: 16, rise: 48, alpha: 0.50, trail: 46, hue: '116 90 194' },
+  { id: 8, x: 74, y: 86, size: 7, delay: -6, duration: 11, drift: -20, rise: 58, alpha: 0.60, trail: 58, hue: '201 54 101' },
+  { id: 9, x: 31, y: 90, size: 5, delay: -9, duration: 12, drift: 18, rise: 46, alpha: 0.50, trail: 44, hue: '201 54 101' },
+  { id: 10, x: 69, y: 6, size: 6, delay: -1, duration: 9, drift: -16, rise: 54, alpha: 0.54, trail: 50, hue: '116 90 194' },
+  { id: 11, x: 3, y: 88, size: 5, delay: -11, duration: 13, drift: 22, rise: 48, alpha: 0.48, trail: 42, hue: '201 54 101' },
+  { id: 12, x: 95, y: 28, size: 5, delay: -5, duration: 10, drift: -20, rise: 50, alpha: 0.56, trail: 46, hue: '116 90 194' }
 ]
 </script>
 
@@ -59,8 +42,17 @@ const particles = [
   position: fixed;
   inset: 0;
   z-index: 0;
-  pointer-events: none;
   overflow: hidden;
+  pointer-events: none;
+}
+
+.particle-background::before {
+  content: '';
+  position: absolute;
+  inset: -15%;
+  background:
+    radial-gradient(circle at 12% 18%, rgb(201 54 101 / 8.5%), transparent 30%),
+    radial-gradient(circle at 88% 76%, rgb(116 90 194 / 8.5%), transparent 28%);
 }
 
 .particle {
@@ -69,7 +61,12 @@ const particles = [
   top: var(--y);
   width: var(--size);
   height: var(--size);
-  animation: particle-drift var(--duration) ease-in-out infinite;
+  border-radius: 50%;
+  background: rgb(var(--hue) / var(--alpha));
+  box-shadow:
+    0 0 0 calc(var(--size) * 0.7) rgb(var(--hue) / 6%),
+    0 0 calc(var(--size) * 3) rgb(var(--hue) / 26%);
+  animation: particle-rise var(--duration) cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
   animation-delay: var(--delay);
   transform: translate3d(0, 0, 0);
 }
@@ -78,70 +75,46 @@ const particles = [
   content: '';
   position: absolute;
   left: 50%;
-  top: 50%;
+  bottom: 4px;
   width: 1px;
-  height: calc(var(--size) * 3.4);
-  border-radius: 999px;
-  background: linear-gradient(to bottom, rgba(var(--hue), 0.72), rgba(var(--hue), 0));
-  opacity: 0.42;
-  transform: translate(-50%, -16%) rotate(28deg);
-  filter: blur(0.4px);
+  height: var(--trail);
+  border-radius: 1px;
+  background: linear-gradient(to top, rgb(var(--hue) / 28%), transparent);
+  transform: translateX(-50%) rotate(-12deg);
+  transform-origin: bottom;
 }
 
-.particle-halo,
-.particle-core {
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-}
-
-.particle-halo {
-  background: radial-gradient(circle, rgba(var(--hue), calc(var(--alpha) * 0.92)) 0%, rgba(var(--hue), 0.34) 32%, rgba(var(--hue), 0) 72%);
-  filter: blur(6px);
-  transform: scale(3.1);
-}
-
-.particle-core {
-  background: rgba(var(--hue), var(--alpha));
-  box-shadow:
-    0 0 12px rgba(var(--hue), 0.82),
-    0 0 28px rgba(236, 72, 153, 0.34),
-    0 0 46px rgba(181, 140, 255, 0.24);
-}
-
-.particle:nth-child(5n) .particle-core {
-  border-radius: 40% 60% 45% 55%;
-  transform: rotate(18deg);
-}
-
-@keyframes particle-drift {
-  0%, 100% {
-    opacity: 0.46;
-    transform: translate3d(0, 0, 0) scale(0.92);
+@keyframes particle-rise {
+  from {
+    opacity: 0.55;
+    transform: translate3d(calc(var(--drift) * -0.35), 24px, 0) scale(0.84);
   }
-  50% {
+  to {
     opacity: 1;
-    transform: translate3d(var(--drift), -46px, 0) scale(1.24);
+    transform: translate3d(var(--drift), calc(var(--rise) * -1), 0) scale(1.12);
   }
 }
 
 @media (max-width: 640px) {
-  .particle:nth-child(n + 21) {
+  .particle:nth-child(n + 9) {
     display: none;
   }
 
   .particle {
-    opacity: 0.9;
+    box-shadow:
+      0 0 0 calc(var(--size) * 0.55) rgb(var(--hue) / 5%),
+      0 0 calc(var(--size) * 2.2) rgb(var(--hue) / 22%);
   }
 
-  .particle-halo {
-    transform: scale(2.55);
+  .particle::after {
+    height: calc(var(--trail) * 0.72);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .particle {
     animation: none;
+    opacity: 0.62;
   }
 }
 </style>

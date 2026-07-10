@@ -1,7 +1,7 @@
 <template>
   <div class="pet-page">
     <div class="love-card detail-card">
-      <h2 class="gradient-title">🐱 我们的电子宠物</h2>
+      <h2 class="gradient-title">我们的电子宠物</h2>
       <template v-if="pet">
         <div class="detail-main">
           <div class="avatar">
@@ -15,23 +15,23 @@
             <p class="muted">陪伴 {{ pet.companionDays }} 天 · 自 {{ pet.boundDate }} 起</p>
             <div class="bars">
               <div class="bar-item">
-                <span>💖 亲密度</span>
-                <el-progress :percentage="intimacyPercent" :stroke-width="10" color="#ff6f9f" />
+          <span>亲密度</span>
+        <el-progress :percentage="intimacyPercent" :stroke-width="10" color="#c93665" />
                 <span class="num">{{ pet.intimacy }}</span>
               </div>
               <div class="bar-item">
-                <span>🍖 饱食度</span>
+          <span>饱食度</span>
                 <el-progress :percentage="pet.fullness" :stroke-width="10" color="#ffb84a" />
               </div>
               <div class="bar-item">
-                <span>😊 心情值</span>
+          <span>心情值</span>
                 <el-progress :percentage="pet.mood" :stroke-width="10" color="#67c23a" />
               </div>
             </div>
             <div class="actions">
-              <el-button type="warning" @click="onInteract('FEED')" :loading="loadingAction === 'FEED'">🍖 喂食</el-button>
+          <el-button type="warning" @click="onInteract('FEED')" :loading="loadingAction === 'FEED'">喂食</el-button>
               <el-button type="success" @click="onInteract('PET')" :loading="loadingAction === 'PET'">🤚 抚摸</el-button>
-              <el-button type="primary" @click="onInteract('PLAY')" :loading="loadingAction === 'PLAY'">🎾 玩耍</el-button>
+          <el-button type="primary" @click="onInteract('PLAY')" :loading="loadingAction === 'PLAY'">玩耍</el-button>
             </div>
           </div>
         </div>
@@ -42,7 +42,7 @@
     </div>
 
     <div v-if="myRequests.length" class="love-card selection-card">
-      <h3>📋 选择请求</h3>
+      <h3>选择请求</h3>
       <div v-for="r in myRequests" :key="r.id" class="req">
         <div class="req-info">
           <span class="emoji small">{{ emojiOf(r.petTypeCode) }}</span>
@@ -65,7 +65,7 @@
     </div>
 
     <div class="love-card types-card">
-      <h3>{{ pet ? '🔄 想换一只？' : '🐾 选一只共养的宠物' }}</h3>
+      <h3>{{ pet ? '想换一只？' : '选一只共养的宠物' }}</h3>
       <p class="muted">选择 / 更换宠物需对方在 24 小时内同意</p>
       <div class="type-grid">
         <div v-for="t in types" :key="t.id" class="type-item" :class="{ selected: form.petTypeId === t.id }" @click="form.petTypeId = t.id">
@@ -128,13 +128,13 @@ async function onCreateRequest() {
   creating.value = true
   try {
     await createPetSelectionRequest({ petTypeId: form.petTypeId, nickname: form.nickname || null })
-    ElMessage.success('已发送给对方，等待同意 💌')
+  ElMessage.success('已发送给对方，等待同意')
     form.nickname = ''
     await refreshAll()
   } finally { creating.value = false }
 }
 
-async function onAgree(id) { await agreePetSelectionRequest(id); ElMessage.success('已同意，宠物已生效 🎉'); await refreshAll() }
+async function onAgree(id) { await agreePetSelectionRequest(id); ElMessage.success('已同意，宠物已生效'); await refreshAll() }
 
 async function onReject(id) {
   try { await ElMessageBox.confirm('确定要拒绝这个请求吗？', '提示', { type: 'warning' }) } catch { return }
@@ -144,7 +144,7 @@ async function onReject(id) {
 async function onInteract(action) {
   if (loadingAction.value) return
   loadingAction.value = action
-  try { const updated = await interactWithPet(action); petStore.pet = updated; ElMessage.success('互动成功 ✨') }
+  try { const updated = await interactWithPet(action); petStore.pet = updated; ElMessage.success('互动成功') }
   finally { loadingAction.value = '' }
 }
 </script>
@@ -316,7 +316,7 @@ h3 {
   cursor: pointer;
   text-align: center;
   border: 2px solid transparent;
-  transition: all 0.2s;
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
 .type-item:hover {

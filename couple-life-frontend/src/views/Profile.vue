@@ -128,14 +128,14 @@ async function handleAvatarUpload(file) {
 
 async function save() {
   await updateProfile(form)
-  ElMessage.success('资料已更新 ✨')
+  ElMessage.success('资料已更新')
   editing.value = false
   await userStore.fetchUser()
 }
 
 async function onBind() {
   await bindCouple(bindForm)
-  ElMessage.success('绑定成功 🎉')
+  ElMessage.success('绑定成功')
   await userStore.fetchUser()
 }
 

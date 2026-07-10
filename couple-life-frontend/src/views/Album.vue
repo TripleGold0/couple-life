@@ -22,9 +22,9 @@
         </template>
       </div>
     </div>
-    <el-empty v-if="!groups.length" description="还没有照片，上传第一张吧 📸" />
+    <el-empty v-if="!groups.length" description="还没有照片，上传第一张吧" />
     <div v-for="group in groups" :key="group.date" class="day-row">
-      <div class="date">📅 {{ group.date }}</div>
+        <div class="date">{{ group.date }}</div>
       <div class="photos">
         <div v-for="photo in group.photos" :key="photo.id" class="photo-wrap" :class="{ selected: selectMode && selectedIds.has(photo.id) }" @click="onPhotoClick(photo)">
           <el-image :src="photo.imageUrl" fit="cover" class="photo" />
@@ -38,24 +38,24 @@
 
     <div v-if="selectMode" class="select-bar">
       <span>已选 {{ selectedIds.size }} 张</span>
-      <el-button type="primary" :disabled="selectedIds.size === 0" :loading="exporting" @click="doExport">📦 导出为 ZIP</el-button>
+      <el-button type="primary" :disabled="selectedIds.size === 0" :loading="exporting" @click="doExport">导出为 ZIP</el-button>
     </div>
 
     <el-dialog v-model="viewerVisible" title="照片详情" width="560px">
       <img v-if="currentPhoto" :src="currentPhoto.imageUrl" class="big-photo" />
       <p>{{ currentPhoto?.description }}</p>
       <el-divider />
-      <div v-if="!comments.length" class="no-comments">还没有评论，留下第一句回忆吧 💬</div>
+        <div v-if="!comments.length" class="no-comments">还没有评论，留下第一句回忆吧</div>
       <div v-for="comment in comments" :key="comment.id" class="comment"><b>{{ comment.nickname }}</b>：{{ comment.content }}</div>
       <div class="comment-form"><el-input v-model="commentText" placeholder="写一句回忆评论..." /><el-button type="primary" @click="sendComment">评论</el-button></div>
     </el-dialog>
-    <el-dialog v-model="uploadVisible" title="📤 上传照片" width="520px">
+    <el-dialog v-model="uploadVisible" title="上传照片" width="520px">
       <el-form label-position="top">
         <el-form-item label="归档日期"><el-date-picker v-model="uploadForm.shootDate" value-format="YYYY-MM-DD" style="width: 100%" /></el-form-item>
         <el-form-item label="标题"><el-input v-model="uploadForm.title" placeholder="给这组照片起个标题" /></el-form-item>
         <el-form-item label="描述"><el-input v-model="uploadForm.description" placeholder="记录背后的故事..." /></el-form-item>
         <el-upload v-model:file-list="fileList" multiple drag :auto-upload="false">
-          <div class="upload-hint">📸 拖拽或点击选择多张照片</div>
+          <div class="upload-hint">拖拽或点击选择多张照片</div>
         </el-upload>
         <el-button type="primary" size="large" class="upload-btn" @click="submitUpload">开始上传</el-button>
       </el-form>
@@ -119,7 +119,7 @@ async function submitUpload() {
   data.append('title', uploadForm.title)
   data.append('description', uploadForm.description)
   await uploadPhotos(data)
-  ElMessage.success('上传成功 📸')
+    ElMessage.success('上传成功')
   uploadVisible.value = false
   fileList.value = []
   await load()

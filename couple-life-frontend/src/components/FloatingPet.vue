@@ -278,8 +278,8 @@ function goPet() {
 .pet-avatar {
   width: 80px; height: 80px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ffd6e7, #fff1cc);
-  box-shadow: 0 6px 16px rgba(255, 111, 159, 0.25);
+  background: var(--color-surface);
+  box-shadow: 0 8px 22px rgb(48 39 45 / 14%);
   display: flex; align-items: center; justify-content: center;
   font-size: 44px;
   border: 3px solid #fff;
@@ -291,23 +291,24 @@ function goPet() {
   right: 90px; top: 0;
   width: 240px;
   background: #fff;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
   padding: 14px 16px;
   font-size: 13px;
 }
 .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.panel-header .lv { color: #ff6f9f; font-size: 12px; }
-.panel-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; margin-bottom: 12px; color: #765567; }
-.panel-stats b { color: #ff5f97; }
+.panel-header .lv { color: var(--color-primary); font-size: 12px; }
+.panel-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; margin-bottom: 12px; color: var(--color-text-secondary); }
+.panel-stats b { color: var(--color-primary); }
 .panel-actions { display: flex; gap: 6px; margin-bottom: 8px; }
 .panel-actions .el-button { flex: 1; padding: 6px 0; }
 .panel-footer { display: flex; justify-content: space-between; }
-.pop-enter-active, .pop-leave-active { transition: all 0.18s ease; }
+.pop-enter-active, .pop-leave-active { transition: opacity 0.18s ease, transform 0.18s ease; }
 .pop-enter-from, .pop-leave-to { opacity: 0; transform: translateY(-4px) scale(0.96); }
 
 /* 移动端面板靠左展开避免溢出 */
 @media (max-width: 600px) {
   .pet-panel { right: auto; left: 90px; }
+  .floating-pet { margin-bottom: 76px; }
 }
 </style>

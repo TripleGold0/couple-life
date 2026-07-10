@@ -1,5 +1,6 @@
 <template>
   <div class="auth-page">
+    <ParticleBackground />
     <!-- 装饰浮动元素 -->
     <div class="deco deco-1">💕</div>
     <div class="deco deco-2">🌸</div>
@@ -84,6 +85,7 @@ import { ElMessage } from 'element-plus'
 import { login, sendCaptcha, getImageCaptcha } from '../api/auth'
 import { useUserStore } from '../stores/userStore'
 import ProfileSetupDialog from '../components/ProfileSetupDialog.vue'
+import ParticleBackground from '../components/ParticleBackground.vue'
 import { isPhone, phoneValidator, phoneOrEmailValidator } from '../utils/validators'
 
 const router = useRouter()

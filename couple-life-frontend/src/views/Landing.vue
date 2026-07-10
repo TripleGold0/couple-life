@@ -289,7 +289,7 @@ const stories = [
 }
 .stat-label {
   font-size: 13px;
-  color: #9b7587;
+  color: var(--color-text-secondary);
   margin-top: 2px;
 }
 
@@ -362,7 +362,7 @@ const stories = [
 }
 .section-sub {
   text-align: center;
-  color: #9b7587;
+  color: var(--color-text-secondary);
   font-size: 16px;
   margin-bottom: 48px;
 }
@@ -404,7 +404,7 @@ const stories = [
 }
 .feature-card p {
   font-size: 14px;
-  color: #9b7587;
+  color: var(--color-text-secondary);
   line-height: 1.7;
   margin: 0;
 }
@@ -459,7 +459,7 @@ const stories = [
 }
 .step p {
   font-size: 14px;
-  color: #9b7587;
+  color: var(--color-text-secondary);
   line-height: 1.7;
   margin: 0;
 }
@@ -525,7 +525,7 @@ const stories = [
   margin: 0 0 16px;
 }
 .cta-box p {
-  color: #9b7587;
+  color: var(--color-text-secondary);
   font-size: 16px;
   margin-bottom: 32px;
 }
@@ -558,7 +558,7 @@ const stories = [
 }
 .footer-links a {
   font-size: 14px;
-  color: #9b7587;
+  color: var(--color-text-secondary);
 }
 .footer-links a:hover {
   color: #ff6f9f;

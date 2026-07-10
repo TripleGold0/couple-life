@@ -59,7 +59,7 @@ const emojis = ['😊', '🥰', '💕', '🌙', '☀️', '🍰', '😭', '😴'
 const form = reactive({ moodEmoji: '😊', moodText: '', content: '' })
 const today = new Date().toISOString().slice(0, 10)
 const isToday = computed(() => selectedDate.value === today)
-const dialogTitle = computed(() => isToday.value ? '📝 今日打卡' : `📅 ${selectedDate.value} 打卡详情`)
+const dialogTitle = computed(() => isToday.value ? '今日打卡' : `${selectedDate.value} 打卡详情`)
 
 onMounted(loadCalendar)
 watch(currentDate, loadCalendar)
@@ -76,7 +76,7 @@ async function openDetail(date) { selectedDate.value = date; detailRecords.value
 
 async function submit() {
   await addCheckin({ checkinDate: selectedDate.value, ...form })
-  ElMessage.success('打卡成功 ✨')
+  ElMessage.success('打卡成功')
   dialogVisible.value = false
   await loadCalendar()
 }
